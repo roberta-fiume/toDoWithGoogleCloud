@@ -59,7 +59,7 @@ export default new Vuex.Store({
       const response  = await axios.get(`http://apicreation-260015.appspot.com/todos?limit=${limit}`);
       console.log("this is the response for LIMIT", response);
 
-      commit('limitResult', limit, response.data);
+      commit('setTodos', response.data);
 
 
     },
@@ -77,7 +77,6 @@ export default new Vuex.Store({
     setDocumentId: (state, documentId) => state.idDocument = documentId,
     newTodo: (state, todo) => state.todos.unshift(todo), //unshift puts the new element at the beginning
     removeTodo: (state, id) => state.todos = state.todos.filter(todo => todo.id !== id),
-    limitResult: (state, limit) => state.todos = state.todos.slice(0, limit),
 
      //it will remove it from the UI
     updateTodo: (state, updTodo) => {
