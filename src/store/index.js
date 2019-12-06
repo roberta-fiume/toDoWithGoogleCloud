@@ -56,7 +56,7 @@ export default new Vuex.Store({
       const limit = parseInt(e.target.options[e.target.options.selectedIndex].innerText);
       console.log("LIMIT", limit)
 
-      const response  = await axios.get(`http://apicreation-260015.appspot.com/todos?_limit=${limit}`);
+      const response  = await axios.get(`http://apicreation-260015.appspot.com/todos?limit=${limit}`);
       console.log("this is the response for LIMIT", response);
 
       commit('limitResult', limit, response.data);
@@ -64,14 +64,12 @@ export default new Vuex.Store({
 
     },
 
-   
+    async updateTodo({ commit }, updTodo) {
+      const response  = await axios.put(`http://apicreation-260015.appspot.com/todos/${updTodo.id}`, updTodo);
+      console.log("UPDATE",response.data)
 
-    // async updateTodo({ commit }, updTodo) {
-    //   const response  = await axios.put(`https://jsonplaceholder.typicode.com/todos/${updTodo.id}`, updTodo);
-    //   console.log(response.data)
-
-    //   commit('updateTodo', response.data);
-    // }
+      commit('updateTodo', response.data);
+    }
   },
 
   mutations: { //takes the array from the response and adds it to the state
@@ -81,18 +79,13 @@ export default new Vuex.Store({
     removeTodo: (state, id) => state.todos = state.todos.filter(todo => todo.id !== id),
     limitResult: (state, limit) => state.todos = state.todos.slice(0, limit),
 
-
-    // limitResults(state, limit) {
-    //   state.todos = state.todos.slice(0, limit);
-    // }
-
      //it will remove it from the UI
-    // updateTodo: (state, updTodo) => {
-    //   const index = state.todos.findIndex(todo => todo.id === updTodo.id); //give me the index of the todo that I want to replace
-    //   if (index !== -1) {
-    //     state.todos.splice(index, 1, updTodo);
-    //   }
-    // }
+    updateTodo: (state, updTodo) => {
+      const index = state.todos.findIndex(todo => todo.id === updTodo.id); //give me the index of the todo that I want to replace
+      if (index !== -1) {
+        state.todos.splice(index, 1, updTodo);
+      }
+    }
   },
 
   modules: {
